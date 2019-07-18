@@ -9,12 +9,15 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)
-  displayName: 'dotnet build $(buildConfiguration)'
-  
-- task: CopyFiles@2
+##- script: dotnet build --configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)
+##  displayName: 'dotnet build $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
   inputs:
-    targetFolder: '$(Build.ArtifactStagingDirectory)' 
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
 
 - task: PublishBuildArtifacts@1
   inputs:
